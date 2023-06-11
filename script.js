@@ -64,41 +64,59 @@ function addNewTodo() {
 async function updateTodo(clicked) {
 	target = clicked.id - 1;
 	targetApiId = todoList[target].id;
-	if (todoList[target].completed === false) {
-		await fetch(`${baseApiUrl}/${targetApiId}`, {
-			method: "PUT",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				completed: true,
-			}),
-		})
-			.then((res) => res.json())
-			.then((todoData) => {
-				todoList[target].completed = todoData.completed;
-				todoList[target].completedDate = getDate();
-			});
-	} else {
-		await fetch(`${baseApiUrl}/${targetApiId}`, {
-			method: "PUT",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				completed: false,
-			}),
-		})
-			.then((res) => res.json())
-			.then((todoData) => {
-				todoList[target].completed = todoData.completed;
-				todoList[target].completedDate = undefined;
-			});
+	console.log(targetApiId);
+	// Om det är egentillagd todo
+	if (targetApiId > 150) {
+		if (todoList[target].completed === false) {
+			console.log("den kommer hit");
+			todoList[target].completed = true;
+			todoList[target].completedDate = getDate();
+			return clicked.classList.toggle("done"), renderTodos(todoList);
+		}
+		if (todoList[target].completed === true) {
+			todoList[target].completed = false;
+			todoList[target].completedDate = undefined;
+			return clicked.classList.toggle("done"), renderTodos(todoList);
+		}
+
+		// om det är en från todo apin
+	} else if (targetApiId < 150) {
+		if (todoList[target].completed === false) {
+			await fetch(`${baseApiUrl}/${targetApiId}`, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					completed: true,
+				}),
+			})
+				.then((res) => res.json())
+				.then((todoData) => {
+					todoList[target].completed = todoData.completed;
+					todoList[target].completedDate = getDate();
+				});
+		} else {
+			await fetch(`${baseApiUrl}/${targetApiId}`, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					completed: false,
+				}),
+			})
+				.then((res) => res.json())
+				.then((todoData) => {
+					todoList[target].completed = todoData.completed;
+					todoList[target].completedDate = undefined;
+				});
+		}
+		clicked.classList.toggle("done");
+		renderTodos(todoList);
 	}
-	clicked.classList.toggle("done");
-	renderTodos(todoList);
 }
 function removeTodo(clicked) {
 	// tar bort egna tillagda todos
 	target = clicked.id - 1;
 	targetApiId = todoList[target].id;
-	if (targetApiId >= 150) {
+	if (targetApiId > 150) {
 		todoList.splice(target, 1);
 		renderTodos(todoList);
 	} else {
