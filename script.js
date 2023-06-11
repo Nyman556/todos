@@ -3,8 +3,8 @@ todoListObject = document.getElementById("todo-list");
 newTodoBtn = document.getElementById("add-btn");
 removeAllBtn = document.getElementById("remove-all");
 overlay = document.querySelector(".overlay");
-inputTitle = document.getElementById("todo-title-input");
-inputDescription = document.getElementById("todo-description-input");
+inputTitle = document.getElementById("input-todo-title");
+inputDescription = document.getElementById("input-todo-description");
 
 // Variabler
 const baseApiUrl = "https://dummyjson.com/todos";
@@ -25,16 +25,23 @@ class Todo {
 		this.userId = userId;
 	}
 }
-
+// funktion för att visa/ta bort "add todo" rutan
 function toggleOverlay() {
+	event.preventDefault();
 	overlay.classList.toggle("hidden");
 }
 
+// hämtar forms och stoppar submit sen kör funktionen addNewTodo
+// prettier-ignore
+document.getElementById("input-form").addEventListener("submit", function (event) {
+		event.preventDefault();
+		addNewTodo();
+	});
+
+// funktion för att lägga till todo. använder "fake" responsen till att göra ett nytt object i listan
 function addNewTodo() {
-	e.preventDefault();
 	let title = inputTitle.value;
 	let description = inputDescription.value;
-	console.log(title, description);
 	fetch(`${baseApiUrl}/add`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -50,30 +57,73 @@ function addNewTodo() {
 			todoList.push(createdTodo);
 			renderTodos(todoList);
 		});
+	toggleOverlay();
 }
-function updateTodo(clicked) {
+
+// "fake" PUT request, använder responsen till att göra ändringar på objectet i listan
+async function updateTodo(clicked) {
 	target = clicked.id - 1;
+	targetApiId = todoList[target].id;
 	if (todoList[target].completed === false) {
-		todoList[target].completed = true;
-		todoList[target].completedDate = getDate();
+		await fetch(`${baseApiUrl}/${targetApiId}`, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				completed: true,
+			}),
+		})
+			.then((res) => res.json())
+			.then((todoData) => {
+				todoList[target].completed = todoData.completed;
+				todoList[target].completedDate = getDate();
+			});
 	} else {
-		todoList[target].completed = false;
-		todoList[target].completedDate = undefined;
+		await fetch(`${baseApiUrl}/${targetApiId}`, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				completed: false,
+			}),
+		})
+			.then((res) => res.json())
+			.then((todoData) => {
+				todoList[target].completed = todoData.completed;
+				todoList[target].completedDate = undefined;
+			});
 	}
 	clicked.classList.toggle("done");
 	renderTodos(todoList);
 }
 function removeTodo(clicked) {
+	// tar bort egna tillagda todos
 	target = clicked.id - 1;
-	todoList.splice(target, 1);
-	console.log("removed todo with orderId " + clicked.id);
-	renderTodos(todoList);
+	targetApiId = todoList[target].id;
+	if (targetApiId >= 150) {
+		todoList.splice(target, 1);
+		renderTodos(todoList);
+	} else {
+		//  "fake" DELETE post, skickas bara om id't finns i Apin, lite långsammare eftersom den måste gå igenom samtliga för att hitta vilken den ska ta bort
+		fetch(`${baseApiUrl}/${todoList[target].id}`, {
+			method: "DELETE",
+		})
+			.then((res) => res.json())
+			.then((todoData) => {
+				for (const [key, value] of Object.entries(todoList)) {
+					if (value.id === todoData.id) {
+						todoList.splice(key, 1);
+						renderTodos(todoList);
+					}
+				}
+			});
+	}
 }
 
+// Tar bort samtliga todos - vid nästa refresh hämtar den 30 todos från apin
 function removeAllTodos() {
 	localStorage.clear();
 }
 
+// funktion som returnerar datum -> YYYY-MM-DD
 function getDate() {
 	let newDate = new Date();
 	let year = newDate.getFullYear();

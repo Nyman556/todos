@@ -26,23 +26,27 @@
 			</div>
 			<ul id="todo-list"></ul>
 			<div class="overlay hidden">
-				<form class="add-todo">
+				<form id="input-form" class="add-todo" method="post">
 					<h2>Add Todo</h2>
 					<input
-						id="todo-title-input"
+						id="input-todo-title"
 						class="input"
 						type="text"
 						placeholder="Todo title"
+						autocomplete="off"
+						required
 					/>
 					<textarea
-						id="todo-description-input"
+						id="input-todo-description"
 						class="input"
 						rows="10"
 						cols="60"
 						placeholder="Description"
+						autocomplete="off"
+						required
 					></textarea>
 					<div class="button-wrapper">
-						<button class="btn add-btn" onclick="addNewTodo()">Add todo</button>
+						<button class="btn add-btn" type="submit">Add todo</button>
 						<button id="cancel" class="btn" onclick="toggleOverlay()">
 							Cancel
 						</button>
