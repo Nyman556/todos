@@ -6,9 +6,28 @@
 		<title>Todos</title>
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="reset.css" />
 		<link rel="stylesheet" href="style.css" />
+		<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	</head>
 	<body>
+		<main>
+			<div class="list-header">
+				<h1>Todos</h1>
+				<div class="list-header-buttons">
+					<button class="btn">Add Todo</button>
+					<button class="btn">Remove All</button>
+				</div>
+			</div>
+			<ul class="todo-list">
+				<li class="todo">
+					<h3 class="todo-heading">Walk dog</h3>
+					<p class="tag">Todo</p>
+					<span class="timestamp">Added: 2023-06-11</span>
+					<p class="description">Walk dog atleast 1 hour</p>
+				</li>
+			</ul>
+		</main>
 		<script src="script.js" async defer></script>
 	</body>
 </html>
