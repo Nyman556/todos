@@ -47,8 +47,7 @@ main {
 	line-height: 1.5em;
 }
 
-.todo,
-#empty {
+.todo {
 	position: relative;
 	background-color: var(--secondary);
 	border: 1px solid transparent;
@@ -57,13 +56,7 @@ main {
 	padding: 0.7rem 1rem;
 	margin: 0.5rem;
 }
-#empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 26px;
-	user-select: none;
-}
+
 .todo * {
 	padding-bottom: 0.5rem;
 }
@@ -81,17 +74,19 @@ main {
 }
 
 .created-timestamp,
-.done-timestamp {
+.completed-timestamp {
 	position: absolute;
 	bottom: 0;
 	color: var(--text-main);
 	font-size: 10px;
 }
-.done-timestamp {
+.completed-timestamp {
 	right: 1rem;
 }
 .actions {
 	position: absolute;
+	display: flex;
+	gap: 3px;
 	right: 0.2rem;
 	top: 0.4rem;
 }
@@ -124,4 +119,8 @@ main {
 .list-header-buttons {
 	display: flex;
 	gap: 1rem;
+}
+
+.done {
+	background-color: var(--highlight);
 }
