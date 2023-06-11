@@ -64,11 +64,9 @@ function addNewTodo() {
 async function updateTodo(clicked) {
 	target = clicked.id - 1;
 	targetApiId = todoList[target].id;
-	console.log(targetApiId);
 	// Om det är egentillagd todo
 	if (targetApiId > 150) {
 		if (todoList[target].completed === false) {
-			console.log("den kommer hit");
 			todoList[target].completed = true;
 			todoList[target].completedDate = getDate();
 			return clicked.classList.toggle("done"), renderTodos(todoList);
