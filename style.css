@@ -2,7 +2,6 @@
 
 :root {
 	--bg-color: #15161a;
-	--main: #1a1b1f;
 	--secondary: #1a1b1f;
 	--text-main: #f8f4f8;
 	--text-secondary: hsla(0, 0%, 100%, 0.4);
@@ -35,7 +34,8 @@ main {
 .list-header h1 {
 	font-size: 32px;
 }
-.btn {
+.btn,
+.input {
 	color: var(--text-main);
 	background: var(--secondary);
 	border: 1px solid transparent;
@@ -102,10 +102,11 @@ main {
 	cursor: pointer;
 }
 
-#add-btn:hover {
+.add-btn:hover {
 	background-color: var(--highlight);
 }
-#remove-all:hover {
+#remove-all:hover,
+#cancel:hover {
 	background-color: var(--warning);
 }
 .remove-todo:hover {
@@ -127,4 +128,40 @@ main {
 
 .done {
 	background-color: var(--highlight);
+}
+
+.overlay {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	height: 100%;
+	background: rgba(27, 26, 26, 0.274);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.add-todo {
+	background-color: var(--bg-color);
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	border: 1px solid var(--highlight);
+}
+.add-todo * {
+	margin: 1rem;
+}
+
+.button-wrapper {
+	margin: 0;
+	display: flex;
+	justify-content: center;
+}
+
+.hidden {
+	display: none;
 }

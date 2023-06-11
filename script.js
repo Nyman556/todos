@@ -2,26 +2,54 @@
 todoListObject = document.getElementById("todo-list");
 newTodoBtn = document.getElementById("add-btn");
 removeAllBtn = document.getElementById("remove-all");
+overlay = document.querySelector(".overlay");
+inputTitle = document.getElementById("todo-title-input");
+inputDescription = document.getElementById("todo-description-input");
 
 // Variabler
 const baseApiUrl = "https://dummyjson.com/todos";
 let todoList = JSON.parse(localStorage.getItem("todos"));
 let order = 1;
+// Hårdkodar ett userId då api't behöver det vid callsen. I detta fall spelar det ingen roll vad id't är
+let userId = 1;
 // order är ordningen i renderingen
 class Todo {
 	constructor(id, title, description, state, check) {
 		this.id = id;
 		this.order = order;
 		this.title = title;
-		this.description = description || undefined;
+		this.description = description;
 		this.created = getDate();
 		this.completed = state || false;
 		this.completedDate = check;
+		this.userId = userId;
 	}
 }
 
+function toggleOverlay() {
+	overlay.classList.toggle("hidden");
+}
+
 function addNewTodo() {
-	new Todo(todoList.length + 1, title, description);
+	e.preventDefault();
+	let title = inputTitle.value;
+	let description = inputDescription.value;
+	console.log(title, description);
+	fetch(`${baseApiUrl}/add`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			todo: title,
+			completed: false,
+			userId: userId,
+		}),
+	})
+		.then((res) => res.json())
+		.then((todoData) => {
+			let createdTodo = new Todo(todoData.id, todoData.todo, description);
+			todoList.push(createdTodo);
+			renderTodos(todoList);
+		});
 }
 function updateTodo(clicked) {
 	target = clicked.id - 1;
@@ -38,7 +66,7 @@ function updateTodo(clicked) {
 function removeTodo(clicked) {
 	target = clicked.id - 1;
 	todoList.splice(target, 1);
-	console.log("removed todo with id " + clicked.id);
+	console.log("removed todo with orderId " + clicked.id);
 	renderTodos(todoList);
 }
 
@@ -109,7 +137,7 @@ function renderTodos(todoList) {
 		if (!todo.description) {
 			todoDescription.innerHTML = "No description provided";
 		} else {
-			todoDescription = todo.description;
+			todoDescription.innerHTML = todo.description;
 		}
 		// Timestamps
 		createdTimestamp = document.createElement("span");
@@ -160,7 +188,6 @@ function fetchTodos() {
 				todoList.push(currentTodo);
 			});
 			renderTodos(todoList);
-			localStorage.todos = JSON.stringify(todoList);
 			return todoList;
 		});
 }

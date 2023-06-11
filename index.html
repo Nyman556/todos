@@ -15,7 +15,9 @@
 			<div class="list-header">
 				<h1>Todos</h1>
 				<div class="list-header-buttons">
-					<button id="add-btn" class="btn">New Todo</button>
+					<button class="btn add-btn" onclick="toggleOverlay()">
+						New Todo
+					</button>
 					<button id="remove-all" class="btn" onclick="removeAllTodos()">
 						Remove All
 						<i class="btn-icon" data-feather="trash-2"></i>
@@ -23,6 +25,30 @@
 				</div>
 			</div>
 			<ul id="todo-list"></ul>
+			<div class="overlay hidden">
+				<form class="add-todo">
+					<h2>Add Todo</h2>
+					<input
+						id="todo-title-input"
+						class="input"
+						type="text"
+						placeholder="Todo title"
+					/>
+					<textarea
+						id="todo-description-input"
+						class="input"
+						rows="10"
+						cols="60"
+						placeholder="Description"
+					></textarea>
+					<div class="button-wrapper">
+						<button class="btn add-btn" onclick="addNewTodo()">Add todo</button>
+						<button id="cancel" class="btn" onclick="toggleOverlay()">
+							Cancel
+						</button>
+					</div>
+				</form>
+			</div>
 		</main>
 		<script src="script.js" async defer></script>
 	</body>
