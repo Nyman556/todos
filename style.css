@@ -42,7 +42,7 @@ main {
 	border-radius: 10px;
 	padding: 0.5rem 0.5rem;
 }
-.todo-list {
+#todo-list {
 	margin: 0.5rem;
 	line-height: 1.5em;
 }
@@ -54,7 +54,6 @@ main {
 	border: 1px solid transparent;
 	border-radius: 5px;
 	width: 400px;
-	height: auto;
 	padding: 0.7rem 1rem;
 	margin: 0.5rem;
 }
@@ -74,22 +73,27 @@ main {
 	font-weight: 500;
 	font-size: 18px;
 	margin: 0;
+	max-width: 350px;
 }
 .description {
 	margin-bottom: 1.5rem;
+	color: var(--text-secondary);
 }
 
-.timestamp {
+.created-timestamp,
+.done-timestamp {
 	position: absolute;
 	bottom: 0;
-	left: 1rem;
-	color: var(--text-secondary);
+	color: var(--text-main);
 	font-size: 10px;
+}
+.done-timestamp {
+	right: 1rem;
 }
 .actions {
 	position: absolute;
 	right: 0.2rem;
-	top: 0.2rem;
+	top: 0.4rem;
 }
 .remove-todo,
 .btn-icon,
@@ -115,4 +119,9 @@ main {
 
 .complete-todo:hover {
 	color: var(--highlight);
+}
+
+.list-header-buttons {
+	display: flex;
+	gap: 1rem;
 }
