@@ -6,6 +6,8 @@
 	--secondary: #1a1b1f;
 	--text-main: #f8f4f8;
 	--text-secondary: hsla(0, 0%, 100%, 0.4);
+	--highlight: rgb(36, 117, 49);
+	--warning: rgb(138, 33, 33);
 }
 
 body {
@@ -40,36 +42,41 @@ main {
 	border-radius: 10px;
 	padding: 0.5rem 0.5rem;
 }
-.btn:hover {
-	background-color: var(--text-secondary);
-	transition: 0.25s ease-in-out;
-}
 .todo-list {
 	margin: 0.5rem;
 	line-height: 1.5em;
 }
 
-.todo {
+.todo,
+#empty {
 	position: relative;
 	background-color: var(--secondary);
 	border: 1px solid transparent;
 	border-radius: 5px;
-	min-width: 400px;
+	width: 400px;
+	height: auto;
 	padding: 0.7rem 1rem;
+	margin: 0.5rem;
+}
+#empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 26px;
+	user-select: none;
 }
 .todo * {
-	margin: 0.3rem;
+	padding-bottom: 0.5rem;
 }
 .todo-heading {
+	display: flex;
+	justify-content: space-between;
 	font-weight: 500;
 	font-size: 18px;
+	margin: 0;
 }
 .description {
 	margin-bottom: 1.5rem;
-}
-
-.tag {
-	color: var(--text-secondary);
 }
 
 .timestamp {
@@ -78,4 +85,34 @@ main {
 	left: 1rem;
 	color: var(--text-secondary);
 	font-size: 10px;
+}
+.actions {
+	position: absolute;
+	right: 0.2rem;
+	top: 0.2rem;
+}
+.remove-todo,
+.btn-icon,
+.complete-todo {
+	height: 13px;
+	width: auto;
+}
+
+.btn:hover {
+	transition: 0.25s ease-in-out;
+	cursor: pointer;
+}
+
+#add-btn:hover {
+	background-color: var(--highlight);
+}
+#remove-all:hover {
+	background-color: var(--warning);
+}
+.remove-todo:hover {
+	color: var(--warning);
+}
+
+.complete-todo:hover {
+	color: var(--highlight);
 }
