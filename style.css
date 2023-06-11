@@ -116,6 +116,10 @@ main {
 	color: var(--highlight);
 }
 
+.btn:active {
+	transform: scale(0.9);
+}
+
 .list-header-buttons {
 	display: flex;
 	gap: 1rem;
